@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
+All colors MUST be HSL. */
+
+@layer base {
+  :root {
+    /* Clean LLM console theme */
+    --background: 0 0% 100%; /* clean white background */
+    --foreground: 0 0% 9%;  /* dark text */
+
+    --card: 0 0% 100%; /* white cards */
+    --card-foreground: 0 0% 9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
+
+    /* Professional colors */
+    --primary: 221 83% 53%; /* professional blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%; /* light gray */
+    --secondary-foreground: 0 0% 9%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 221 83% 53%; /* same as primary */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 100%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar (unused yet, kept consistent) */
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Clean black and white gradients with light purple accent */
+    --gradient-primary-start: 270 100% 70%; /* light purple */
+    --gradient-primary-end: 270 100% 60%;  /* darker purple */
+    --gradient-secondary-start: 0 0% 100%; /* white */
+    --gradient-secondary-end: 0 0% 95%;  /* light gray */
+    --gradient-accent: linear-gradient(135deg, 
+      hsl(270 100% 70%), 
+      hsl(270 100% 60%), 
+      hsl(0 0% 100%));
+    --gradient-card: linear-gradient(135deg, 
+      hsl(0 0% 100%), 
+      hsl(0 0% 98%), 
+      hsl(0 0% 96%));
+  }
+
+  .dark {
+    /* Clean dark theme */
+    --background: 0 0% 3%; /* very dark background */
+    --foreground: 0 0% 98%;  /* light text */
+
+    --card: 0 0% 3%; /* dark cards */
+    --card-foreground: 0 0% 98%;
+
+    --popover: 0 0% 3%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Professional dark colors */
+    --primary: 221 83% 53%; /* same professional blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 14%; /* dark gray */
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 0 0% 14%;
+    --muted-foreground: 0 0% 65%;
+
+    --accent: 221 83% 53%; /* same as primary */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
+    --ring: 221 83% 53%;
+
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body;
+  }
+}
+
+@layer utilities {
+  .hover-scale { @apply transition-transform duration-200 hover:scale-105; }
+  
+  /* Font family utilities */
+  .font-heading { font-family: 'Space Grotesk', 'Caprasimo', system-ui, sans-serif; }
+  .font-subheading { font-family: 'Space Grotesk', system-ui, sans-serif; }
+  .font-body { font-family: 'Urbanist', system-ui, sans-serif; }
+  
+  /* Fun interactive animations - make it super playful! */
+  .interactive-bounce {
+    @apply transition-transform duration-200 hover:scale-110 active:scale-95;
+  }
+  
+  .playful-hover {
+    @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:rotate-1;
+  }
+  
+  .gentle-float {
+    animation: float 4s ease-in-out infinite;
+  }
+  
+  .rainbow-text {
+    background: linear-gradient(45deg, 
+      hsl(0 100% 70%), 
+      hsl(60 100% 70%), 
+      hsl(120 100% 70%), 
+      hsl(240 100% 70%), 
+      hsl(300 100% 70%));
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-shift 3s ease-in-out infinite;
+  }
+  
+  .sparkle-bg {
+    background: radial-gradient(circle at 25% 25%, hsl(var(--primary) / 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, hsl(var(--accent) / 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 75% 25%, hsl(var(--secondary) / 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 25% 75%, hsl(var(--primary) / 0.1) 0%, transparent 50%);
+    animation: sparkle-pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes rainbow-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  
+  @keyframes sparkle-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.6; }
+  }
+  
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    75% { transform: rotate(-5deg); }
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.2); }
+  }
+  
+  .stagger-fade-in > * {
+    opacity: 0;
+    animation: fade-in 0.6s ease-out forwards;
+  }
+  
+  .stagger-fade-in > *:nth-child(1) { animation-delay: 0.1s; }
+  .stagger-fade-in > *:nth-child(2) { animation-delay: 0.2s; }
+  .stagger-fade-in > *:nth-child(3) { animation-delay: 0.3s; }
+  .stagger-fade-in > *:nth-child(4) { animation-delay: 0.4s; }
+  .stagger-fade-in > *:nth-child(5) { animation-delay: 0.5s; }
+  .stagger-fade-in > *:nth-child(6) { animation-delay: 0.6s; }
+  
+  /* Fun animation utilities */
+  .animate-wiggle { animation: wiggle 0.5s ease-in-out; }
+  .animate-float { animation: float 3s ease-in-out infinite; }
+  .animate-sparkle { animation: sparkle 2s ease-in-out infinite; }
+}

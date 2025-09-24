@@ -1,0 +1,174 @@
+{
+  "categories": [
+    { 
+      "id": "anxious", 
+      "label": "I feel anxious", 
+      "example": "I'm scared about school tomorrow",
+      "emoji": "😰",
+      "color": "bg-blue-100 border-blue-300"
+    },
+    { 
+      "id": "mistake", 
+      "label": "I made a mistake", 
+      "example": "I broke my sibling's toy",
+      "emoji": "😅",
+      "color": "bg-orange-100 border-orange-300"
+    },
+    { 
+      "id": "friend", 
+      "label": "I had a fight with a friend", 
+      "example": "We argued at recess",
+      "emoji": "😠",
+      "color": "bg-red-100 border-red-300"
+    },
+    { 
+      "id": "overwhelmed", 
+      "label": "I feel overwhelmed", 
+      "example": "Too much homework",
+      "emoji": "😵",
+      "color": "bg-purple-100 border-purple-300"
+    },
+    { 
+      "id": "sad", 
+      "label": "I feel sad", 
+      "example": "My pet is sick",
+      "emoji": "😢",
+      "color": "bg-gray-100 border-gray-300"
+    },
+    { 
+      "id": "angry", 
+      "label": "I feel angry", 
+      "example": "Someone took my turn",
+      "emoji": "😡",
+      "color": "bg-red-100 border-red-300"
+    }
+  ],
+  "distortions": [
+    { 
+      "id": "catastrophize", 
+      "name": "Catastrophizing", 
+      "example": "This is going to ruin everything!", 
+      "reframe": "It might feel big now, but I can handle it.",
+      "emoji": "🌪️"
+    },
+    { 
+      "id": "blackwhite", 
+      "name": "Black-and-white thinking", 
+      "example": "If I'm not perfect, I'm a failure.", 
+      "reframe": "I can make mistakes and still be awesome.",
+      "emoji": "⚫⚪"
+    },
+    { 
+      "id": "mindread", 
+      "name": "Mind reading", 
+      "example": "They didn't talk to me, so they must hate me.", 
+      "reframe": "Maybe they're just having a hard day too.",
+      "emoji": "🧠👀"
+    },
+    { 
+      "id": "fortune", 
+      "name": "Fortune telling", 
+      "example": "I'll never be good at this.", 
+      "reframe": "I'm learning, and practice helps me improve.",
+      "emoji": "🔮"
+    },
+    { 
+      "id": "should", 
+      "name": "Should statements", 
+      "example": "I should always be happy.", 
+      "reframe": "It's okay to have different feelings.",
+      "emoji": "📋"
+    },
+    { 
+      "id": "labeling", 
+      "name": "Labeling", 
+      "example": "I'm stupid because I got a bad grade.", 
+      "reframe": "I got a bad grade, but I'm still smart and capable.",
+      "emoji": "🏷️"
+    }
+  ],
+  "feelings": [
+    { 
+      "id": "angry", 
+      "emoji": "😡", 
+      "name": "Angry",
+      "strategies": ["Calm Corner", "Box breaths", "Count backwards by 7", "Punch a pillow"]
+    },
+    { 
+      "id": "anxious", 
+      "emoji": "😰", 
+      "name": "Anxious",
+      "strategies": ["5-4-3-2-1 grounding", "Butterfly hugs", "Reframe exercise", "Deep breathing"]
+    },
+    { 
+      "id": "sad", 
+      "emoji": "😢", 
+      "name": "Sad",
+      "strategies": ["Talk to someone", "Soft music", "Stretching", "Write in journal"]
+    },
+    { 
+      "id": "happy", 
+      "emoji": "😊", 
+      "name": "Happy",
+      "strategies": ["Share the good", "Keep doing it", "Help someone else", "Celebrate"]
+    },
+    { 
+      "id": "tired", 
+      "emoji": "😴", 
+      "name": "Tired",
+      "strategies": ["Rest", "Gentle movement", "Healthy snack", "Short nap"]
+    },
+    { 
+      "id": "confused", 
+      "emoji": "😖", 
+      "name": "Confused",
+      "strategies": ["Ask questions", "Break it down", "Take breaks", "Ask for help"]
+    }
+  ],
+  "strategies": [
+    {
+      "id": "grounding",
+      "name": "5-4-3-2-1 Grounding",
+      "description": "Name 5 things you see, 4 you can touch, 3 you hear, 2 you smell, 1 you taste",
+      "steps": [
+        "Look around and name 5 things you can see",
+        "Touch 4 different things around you",
+        "Listen and name 3 things you can hear",
+        "Smell 2 different things",
+        "Taste 1 thing (like gum or water)"
+      ]
+    },
+    {
+      "id": "butterfly",
+      "name": "Butterfly Hugs",
+      "description": "Cross your arms and tap your shoulders like butterfly wings",
+      "steps": [
+        "Cross your arms over your chest",
+        "Tap your left shoulder with your right hand",
+        "Tap your right shoulder with your left hand",
+        "Continue alternating for 10-20 taps",
+        "Breathe slowly while tapping"
+      ]
+    },
+    {
+      "id": "breathing",
+      "name": "Box Breathing",
+      "description": "Breathe in a square pattern: inhale, hold, exhale, hold",
+      "steps": [
+        "Breathe in slowly for 4 counts",
+        "Hold your breath for 4 counts",
+        "Breathe out slowly for 4 counts",
+        "Hold empty for 4 counts",
+        "Repeat 3-5 times"
+      ]
+    }
+  ],
+  "sampleProblems": [
+    "My sibling didn't share with me",
+    "I'm worried about the test tomorrow",
+    "My friend didn't invite me to their party",
+    "I got in trouble at school",
+    "I'm scared of the dark",
+    "Someone called me a mean name"
+  ]
+}

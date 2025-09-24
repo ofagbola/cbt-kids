@@ -1,0 +1,55 @@
+{
+  "categories": [
+    { "id": "worried", "label": "Worried", "emoji": "😟" },
+    { "id": "frustrated", "label": "Frustrated", "emoji": "😤" },
+    { "id": "sad", "label": "Sad", "emoji": "😢" }
+  ],
+  "scenarios": [
+    {
+      "id": "friend-ignore",
+      "title": "Friend didn’t say hi",
+      "emotion": "Sad",
+      "thoughts": [
+        { "text": "No one likes me", "label": "BW" },
+        { "text": "They must be mad at me", "label": "P" },
+        { "text": "It’s going to be a terrible day", "label": "C" }
+      ],
+      "reframes": [
+        "Maybe they didn’t see me.",
+        "I can ask them later.",
+        "One moment doesn’t decide the whole day."
+      ],
+      "coping": [
+        "Say hi first",
+        "Take three deep breaths",
+        "Talk to a different friend"
+      ]
+    },
+    {
+      "id": "test-anxiety",
+      "title": "Test coming up",
+      "emotion": "Anxious",
+      "thoughts": [
+        { "text": "I will fail for sure", "label": "C" },
+        { "text": "I’m just bad at tests", "label": "BW" },
+        { "text": "Teacher will think I’m dumb", "label": "P" }
+      ],
+      "reframes": [
+        "I can prepare with a small plan.",
+        "One test doesn’t define me.",
+        "I’ve done hard things before."
+      ],
+      "coping": [
+        "Study 15 minutes",
+        "Ask one question",
+        "Sleep early"
+      ]
+    }
+  ],
+  "emotionChoices": ["Happy", "Calm", "Okay", "Sad", "Angry", "Anxious"],
+  "distortionLabels": {
+    "C": "Catastrophizing",
+    "P": "Personalization",
+    "BW": "Black-or-White"
+  }
+}
