@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 
 interface SpeechOptions {
   rate?: number;
@@ -10,6 +10,16 @@ interface SpeechOptions {
 export function useSpeechAssistance() {
   const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
   const voiceRef = useRef<SpeechSynthesisVoice | undefined>(undefined);
+  const [isSecure, setIsSecure] = useState(true);
+  const [speechSupported, setSpeechSupported] = useState(true);
+
+  useEffect(() => {
+    // Check if we're on HTTPS (required for Speech Recognition)
+    setIsSecure(window.location.protocol === 'https:' || window.location.hostname === 'localhost');
+    
+    // Check if Speech Recognition is supported
+    setSpeechSupported('webkitSpeechRecognition' in window || 'SpeechRecognition' in window);
+  }, []);
 
   // Resolve voices asynchronously (some browsers load them lazily)
   useEffect(() => {
@@ -27,6 +37,12 @@ export function useSpeechAssistance() {
   }, []);
 
   const speak = (text: string, options: SpeechOptions = {}) => {
+    // Check if speech synthesis is supported
+    if (!('speechSynthesis' in window)) {
+      console.warn('Speech synthesis not supported');
+      return;
+    }
+
     // Cancel any ongoing speech
     if (synthRef.current) {
       window.speechSynthesis.cancel();
@@ -72,7 +88,9 @@ export function useSpeechAssistance() {
     speak,
     stop,
     getVoices,
-    getChildFriendlyVoice
+    getChildFriendlyVoice,
+    isSecure,
+    speechSupported
   };
 }
 

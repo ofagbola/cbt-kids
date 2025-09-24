@@ -287,7 +287,7 @@ function CBTTriangle() {
 }
 
 // Chat Bar Component
-function ChatBar({ onSendMessage, isPlaying, onTogglePlay }) {
+function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceError }) {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -319,15 +319,23 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay }) {
         setIsRecording(false);
       };
 
-      recognitionRef.current.onerror = () => {
+      recognitionRef.current.onerror = (event) => {
+        console.error('Speech recognition error:', event.error);
         setIsListening(false);
         setIsRecording(false);
+        if (event.error === 'not-allowed') {
+          setVoiceError('Microphone access denied. Please allow microphone access for voice features.');
+        } else if (event.error === 'network') {
+          setVoiceError('Network error. Voice features require a secure connection (HTTPS).');
+        }
       };
 
       recognitionRef.current.onend = () => {
         setIsListening(false);
         setIsRecording(false);
       };
+    } else {
+      setVoiceError('Voice recognition not supported in this browser.');
     }
   }, []);
 
@@ -420,6 +428,11 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay }) {
           border: "1px solid rgba(255, 255, 255, 0.3)",
         }}
       >
+        {voiceError && (
+          <div className="absolute -top-12 left-0 right-0 bg-yellow-100 border border-yellow-300 rounded-lg p-2 text-xs text-yellow-800">
+            {voiceError}
+          </div>
+        )}
         <motion.button
           className={`rounded-full w-12 h-12 flex items-center justify-center ${
             isPlaying ? "bg-red-400" : "bg-green-400"
@@ -510,6 +523,7 @@ export default function CBTApp() {
   const [result, setResult] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [voiceError, setVoiceError] = useState<string | null>(null);
 
   const handleCategoryPick = (category) => {
     setSelectedCategory(category);
@@ -716,6 +730,8 @@ export default function CBTApp() {
         onSendMessage={handleSendMessage}
         isPlaying={isPlaying}
         onTogglePlay={handleTogglePlay}
+        voiceError={voiceError}
+        setVoiceError={setVoiceError}
       />
       </div>
 
