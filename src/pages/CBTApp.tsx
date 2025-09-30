@@ -48,7 +48,7 @@ function SettingsModal() {
   });
   const [open, setOpen] = useState(false);
 
-  const handleSettingChange = (key: keyof AppSettings, value: any) => {
+  const handleSettingChange = (key: keyof AppSettings, value: boolean) => {
     const newSettings = { ...settings, [key]: value };
     setSettings(newSettings);
     saveSettings(newSettings);
@@ -433,7 +433,7 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
   // Initialize speech recognition
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
+      const SpeechRecognition = (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).webkitSpeechRecognition || (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).SpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
       recognitionRef.current.continuous = false;
       recognitionRef.current.interimResults = false;
@@ -464,7 +464,7 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
     } else {
       setVoiceError('Voice recognition not supported in this browser.');
     }
-  }, []);
+  }, [setVoiceError]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -669,12 +669,12 @@ export default function CBTApp() {
     }
   });
 
-  const handleCategoryPick = (category) => {
+  const handleCategoryPick = (category: { id: string; label: string; example: string; emoji: string; color: string }) => {
     setSelectedCategory(category);
     setShowChat(true);
   };
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = (message: string) => {
     const lowerMessage = message.toLowerCase();
 
     // Enhanced keyword matching for better category detection

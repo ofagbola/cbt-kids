@@ -49,7 +49,7 @@ export const getJourneys = (): CBTJourney[] => {
     
     const journeys = JSON.parse(stored);
     // Convert timestamp strings back to Date objects
-    return journeys.map((journey: any) => ({
+    return journeys.map((journey: { timestamp: string; [key: string]: unknown }) => ({
       ...journey,
       timestamp: new Date(journey.timestamp)
     }));
