@@ -143,7 +143,7 @@ export const getSettings = (): AppSettings => {
     const stored = localStorage.getItem(STORAGE_KEYS.SETTINGS);
     if (!stored) {
       return {
-        soundEnabled: true,
+        soundEnabled: false,
         animationsEnabled: true,
         reminderEnabled: true,
         theme: 'light'
@@ -153,7 +153,7 @@ export const getSettings = (): AppSettings => {
   } catch (error) {
     console.error('Error loading settings:', error);
     return {
-      soundEnabled: true,
+      soundEnabled: false,
       animationsEnabled: true,
       reminderEnabled: true,
       theme: 'light'

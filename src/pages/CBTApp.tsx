@@ -5,6 +5,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
 import { 
   Home, 
   Gamepad2, 
@@ -27,6 +29,80 @@ import SpeechText from '@/components/SpeechText';
 import CustomCursor from '@/components/CustomCursor';
 import { useHoverBounce } from '@/lib/gsap';
 import OnboardingCoach from '@/components/OnboardingCoach';
+import { getSettings, saveSettings, AppSettings } from '@/lib/storage';
+
+// Settings Component
+function SettingsModal() {
+  const [settings, setSettings] = useState<AppSettings>(() => {
+    try {
+      return getSettings();
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      return {
+        soundEnabled: false,
+        animationsEnabled: true,
+        reminderEnabled: true,
+        theme: 'light'
+      };
+    }
+  });
+  const [open, setOpen] = useState(false);
+
+  const handleSettingChange = (key: keyof AppSettings, value: any) => {
+    const newSettings = { ...settings, [key]: value };
+    setSettings(newSettings);
+    saveSettings(newSettings);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <motion.button
+          className="rounded-lg p-3 cursor-pointer transition-all w-full"
+          style={{
+            background: 'rgba(255, 255, 255, 0.2)',
+            borderRadius: '8px',
+            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+            backdropFilter: 'blur(5px)',
+            WebkitBackdropFilter: 'blur(5px)',
+            border: '1px solid rgba(255, 255, 255, 0.3)'
+          }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <Settings className="w-6 h-6 text-gray-700" />
+        </motion.button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Settings</DialogTitle>
+        </DialogHeader>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <label className="text-sm font-medium">Audio</label>
+              <p className="text-xs text-muted-foreground">Enable sound effects and voice</p>
+            </div>
+            <Switch
+              checked={settings.soundEnabled}
+              onCheckedChange={(checked) => handleSettingChange('soundEnabled', checked)}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <label className="text-sm font-medium">Animations</label>
+              <p className="text-xs text-muted-foreground">Enable smooth animations</p>
+            </div>
+            <Switch
+              checked={settings.animationsEnabled}
+              onCheckedChange={(checked) => handleSettingChange('animationsEnabled', checked)}
+            />
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 // Sidebar Component
 export function Sidebar() {
@@ -49,35 +125,50 @@ export function Sidebar() {
       border: '1px solid rgba(255, 255, 255, 0.3)'
     }}>
       {icons.map((item, index) => (
-        <motion.button
-          key={item.label}
-          onClick={item.onClick}
-          className="rounded-lg p-3 cursor-pointer transition-all w-full"
-          style={{
-            background: 'rgba(255, 255, 255, 0.2)',
-            borderRadius: '8px',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-            backdropFilter: 'blur(5px)',
-            WebkitBackdropFilter: 'blur(5px)',
-            border: '1px solid rgba(255, 255, 255, 0.3)'
-          }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1 }}
-        >
-          <item.icon className="w-6 h-6 text-gray-700" />
-        </motion.button>
+        <div key={item.label}>
+          {item.label === 'Settings' ? (
+            <SettingsModal />
+          ) : (
+            <motion.button
+              onClick={item.onClick}
+              className="rounded-lg p-3 cursor-pointer transition-all w-full"
+              style={{
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '8px',
+                boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
+                backdropFilter: 'blur(5px)',
+                WebkitBackdropFilter: 'blur(5px)',
+                border: '1px solid rgba(255, 255, 255, 0.3)'
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <item.icon className="w-6 h-6 text-gray-700" />
+            </motion.button>
+          )}
+        </div>
       ))}
     </aside>
   );
 }
 
-// Greeting Component
-function Greeting() {
+// Mood Assessment Component
+function MoodAssessment() {
+  const navigate = useNavigate();
   const [date, setDate] = useState('');
   const [weather, setWeather] = useState('☀️');
+  const [selectedMood, setSelectedMood] = useState<string | null>(null);
+
+  const moods = [
+    { emoji: '😊', label: 'Happy', type: 'happy' },
+    { emoji: '😐', label: 'Neutral', type: 'neutral' },
+    { emoji: '😔', label: 'Sad', type: 'sad' },
+    { emoji: '😰', label: 'Worried', type: 'worried' },
+    { emoji: '😡', label: 'Angry', type: 'angry' }
+  ];
 
   useEffect(() => {
     const now = new Date();
@@ -92,6 +183,21 @@ function Greeting() {
     const weathers = ['☀️', '⛅', '🌧️', '❄️'];
     setWeather(weathers[Math.floor(Math.random() * weathers.length)]);
   }, []);
+
+  const handleMoodSelect = (mood: typeof moods[0]) => {
+    setSelectedMood(mood.type);
+    
+    // Redirect based on mood
+    setTimeout(() => {
+      if (mood.type === 'happy') {
+        // Happy users go to calm corner or games
+        navigate('/cbt/calm');
+      } else {
+        // Sad/neutral/worried/angry users go to self-help scenarios
+        // Stay on current page to show scenarios
+      }
+    }, 500);
+  };
 
   return (
     <motion.div 
@@ -111,17 +217,38 @@ function Greeting() {
       <h2 className="font-heading text-4xl md:text-5xl font-extrabold text-purple-700 tracking-tight flex items-center gap-3">
         <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-600 text-white">🧠</span>
         <span className="drop-shadow-sm">
-          <SpeechText>Welcome to CBT for Kids!</SpeechText>
+          <SpeechText>How are you feeling today?</SpeechText>
         </span>
       </h2>
-      <div className="flex items-center gap-2 mt-2">
+      
+      <div className="mt-6">
+        <div className="flex flex-wrap gap-4 justify-center">
+          {moods.map((mood, index) => (
+            <motion.button
+              key={mood.type}
+              onClick={() => handleMoodSelect(mood)}
+              className={`p-4 rounded-2xl transition-all ${
+                selectedMood === mood.type 
+                  ? 'bg-purple-200 scale-105' 
+                  : 'bg-white/60 hover:bg-white/80'
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <div className="text-4xl mb-2">{mood.emoji}</div>
+              <div className="text-sm font-medium text-gray-700">{mood.label}</div>
+            </motion.button>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 mt-6">
         <p className="text-sm text-gray-600">Today is {date}</p>
         <span className="text-lg">{weather}</span>
       </div>
-      <p className="text-sm text-gray-600">
-        <SpeechText>Select a category above or type your problem in the chat bar below to start your CBT journey!</SpeechText>
-      </p>
-
     </motion.div>
   );
 }
@@ -287,7 +414,7 @@ function CBTTriangle() {
 }
 
 // Chat Bar Component
-function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceError }) {
+function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceError, settings }) {
   const [message, setMessage] = useState("");
   const [isRecording, setIsRecording] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -433,38 +560,42 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
             {voiceError}
           </div>
         )}
-        <motion.button
-          className={`rounded-full w-12 h-12 flex items-center justify-center ${
-            isPlaying ? "bg-red-400" : "bg-green-400"
-          } text-black shadow-md`}
-          onClick={onTogglePlay}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isPlaying ? (
-            <Pause className="w-5 h-5" />
-          ) : (
-            <Play className="w-5 h-5" />
-          )}
-        </motion.button>
+        {settings.soundEnabled && (
+          <motion.button
+            className={`rounded-full w-12 h-12 flex items-center justify-center ${
+              isPlaying ? "bg-red-400" : "bg-green-400"
+            } text-black shadow-md`}
+            onClick={onTogglePlay}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {isPlaying ? (
+              <Pause className="w-5 h-5" />
+            ) : (
+              <Play className="w-5 h-5" />
+            )}
+          </motion.button>
+        )}
 
         {/* Wave Animation */}
-        <div className="flex items-center gap-1">
-          {[...Array(5)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="w-1 bg-blue-400 rounded-full"
-              animate={{
-                height: isPlaying ? [4, 16, 4] : 4,
-              }}
-              transition={{
-                duration: 0.6,
-                repeat: isPlaying ? Infinity : 0,
-                delay: i * 0.1,
-              }}
-            />
-          ))}
-        </div>
+        {settings.soundEnabled && (
+          <div className="flex items-center gap-1">
+            {[...Array(5)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="w-1 bg-blue-400 rounded-full"
+                animate={{
+                  height: isPlaying ? [4, 16, 4] : 4,
+                }}
+                transition={{
+                  duration: 0.6,
+                  repeat: isPlaying ? Infinity : 0,
+                  delay: i * 0.1,
+                }}
+              />
+            ))}
+          </div>
+        )}
 
         <div className="flex-1 relative">
           <Input
@@ -524,6 +655,19 @@ export default function CBTApp() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [voiceError, setVoiceError] = useState<string | null>(null);
+  const [settings] = useState<AppSettings>(() => {
+    try {
+      return getSettings();
+    } catch (error) {
+      console.error('Error loading settings:', error);
+      return {
+        soundEnabled: false,
+        animationsEnabled: true,
+        reminderEnabled: true,
+        theme: 'light'
+      };
+    }
+  });
 
   const handleCategoryPick = (category) => {
     setSelectedCategory(category);
@@ -647,7 +791,7 @@ export default function CBTApp() {
         <div className="col-span-11">
           <div className="flex gap-6">
             <div className="flex-1">
-              <Greeting />
+              <MoodAssessment />
 
               <div className="mt-6">
                 <div className="flex flex-wrap gap-3 mb-6">
@@ -665,13 +809,13 @@ export default function CBTApp() {
                   What would you like to explore today?
                 </h2>
 
-                {/* Categories Section */}
+                {/* Scenarios Section */}
                 <div>
                   <h3 className="text-lg font-semibold text-gray-700 mb-3 font-subheading">
-                    📚 CBT Lessons
+                    📚 CBT Scenarios
                   </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    {cbtContent.categories.map((category, index) => (
+                    {cbtContent.categories.slice(0, 6).map((category, index) => (
                       <CategoryCard
                         key={category.id}
                         category={category}
@@ -679,6 +823,21 @@ export default function CBTApp() {
                       />
                     ))}
                   </div>
+                  {cbtContent.categories.length > 6 && (
+                    <div className="mt-4 text-center">
+                      <Button 
+                        variant="outline" 
+                        className="bg-white/60 hover:bg-white/80"
+                        onClick={() => {
+                          // Show all categories or navigate to a categories page
+                          const remainingCategories = cbtContent.categories.slice(6);
+                          console.log('Show more categories:', remainingCategories);
+                        }}
+                      >
+                        View More Scenarios
+                      </Button>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -732,6 +891,7 @@ export default function CBTApp() {
         onTogglePlay={handleTogglePlay}
         voiceError={voiceError}
         setVoiceError={setVoiceError}
+        settings={settings}
       />
       </div>
 
