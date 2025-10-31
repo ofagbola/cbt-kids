@@ -8,7 +8,7 @@ const TARGETS = [
   { id: 'A', label: 'Actions', def: 'What we do' }
 ];
 
-export default function CBTPuzzle() {
+export default function TEACheck() {
   const [placed, setPlaced] = useState<Record<string, string>>({});
   const labels = useMemo(() => TARGETS.map(t => t.label), []);
 

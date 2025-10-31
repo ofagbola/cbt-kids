@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Bot, User, ArrowLeft, Mic, MicOff, Volume2, VolumeX } from 'lucide-react';
 import cbtContent from '@/data/cbt-content.json';
+import teaContent from '@/data/tea-content.json';
 import FloatingImages from '@/components/FloatingImages';
 import SpeechText from '@/components/SpeechText';
 
@@ -83,6 +84,14 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
   };
 
   const getContextualGreeting = (category: any) => {
+    // Check if we have a detailed scenario in teaContent
+    const detailedScenario = teaContent.scenarios.find(s => s.id === category.id);
+    
+    if (detailedScenario) {
+      return `Hi! I can help with "${category.label}". I can see you're dealing with something tough. Let's explore what thoughts you might be having about this situation.`;
+    }
+    
+    // Fallback for other categories
     const greetings = {
       'anxious': `Hi! I'm here to help with your worries. Let's talk about "${category.example}". What are you thinking?`,
       'mistake': `Hello! Everyone makes mistakes - it's okay! Let's talk about "${category.example}". What's on your mind?`,

@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import FeelingDetective from '@/components/cbt/FeelingDetective';
-import CBTPuzzle from '@/components/cbt/CBTPuzzle';
+import TEACheck from '@/components/cbt/TEACheck';
 import ThoughtSorterGame from '@/components/cbt/ThoughtSorterGame';
 import { useNavigate } from 'react-router-dom';
 
@@ -84,8 +84,8 @@ export default function CBTGames() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
           >
-            <h3 className="text-xl font-semibold text-gray-800 mb-2 font-subheading">CBT Puzzle</h3>
-            <CBTPuzzle />
+            <h3 className="text-xl font-semibold text-gray-800 mb-2 font-subheading">T-E-A Check</h3>
+            <TEACheck />
           </motion.div>
         </div>
       </div>

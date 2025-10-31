@@ -1,48 +1,218 @@
 {
   "categories": [
-    { "id": "worried", "label": "Worried", "emoji": "😟" },
-    { "id": "frustrated", "label": "Frustrated", "emoji": "😤" },
-    { "id": "sad", "label": "Sad", "emoji": "😢" }
+    { "id": "school", "label": "School/Friends", "emoji": "🏫" },
+    { "id": "family", "label": "Family", "emoji": "👨‍👩‍👧‍👦" },
+    { "id": "home", "label": "Home/Family", "emoji": "🏠" }
   ],
   "scenarios": [
     {
-      "id": "friend-ignore",
-      "title": "Friend didn’t say hi",
+      "id": "friend-fight",
+      "title": "My friend and I are having a fight",
+      "category": "School/Friends",
       "emotion": "Sad",
       "thoughts": [
-        { "text": "No one likes me", "label": "BW" },
-        { "text": "They must be mad at me", "label": "P" },
-        { "text": "It’s going to be a terrible day", "label": "C" }
+        { "text": "I'm gonna lose my friend forever", "label": "C" },
+        { "text": "This fight is all my fault", "label": "P" },
+        { "text": "If my friend and I are fighting, I must be a terrible friend", "label": "BW" }
       ],
       "reframes": [
-        "Maybe they didn’t see me.",
-        "I can ask them later.",
-        "One moment doesn’t decide the whole day."
+        "Even though we're fighting right now, we will find a way to make up.",
+        "Friends sometimes disagree, but we can work through this.",
+        "This one fight doesn't define our whole friendship."
       ],
       "coping": [
-        "Say hi first",
-        "Take three deep breaths",
-        "Talk to a different friend"
+        "Take deep breaths before talking",
+        "Talk calmly about what happened",
+        "Ask an adult for help if needed"
       ]
     },
     {
-      "id": "test-anxiety",
-      "title": "Test coming up",
+      "id": "anxious-school",
+      "title": "I feel anxious at school",
+      "category": "School/Friends",
       "emotion": "Anxious",
       "thoughts": [
-        { "text": "I will fail for sure", "label": "C" },
-        { "text": "I’m just bad at tests", "label": "BW" },
-        { "text": "Teacher will think I’m dumb", "label": "P" }
+        { "text": "If I make a mistake, my classmates will think I'm not smart", "label": "C" },
+        { "text": "My anxiety is my fault", "label": "P" },
+        { "text": "I'm never going to get over this anxiety", "label": "BW" }
       ],
       "reframes": [
-        "I can prepare with a small plan.",
-        "One test doesn’t define me.",
-        "I’ve done hard things before."
+        "Everybody makes mistakes, I am still smart even if I make one.",
+        "I can learn to manage my anxiety with practice.",
+        "Feeling anxious is normal and I can handle it."
       ],
       "coping": [
-        "Study 15 minutes",
-        "Ask one question",
-        "Sleep early"
+        "Practice 5-4-3-2-1 grounding",
+        "Talk to a teacher or counselor",
+        "Use calming breathing techniques"
+      ]
+    },
+    {
+      "id": "embarrassing-moment",
+      "title": "I had an embarrassing moment",
+      "category": "School/Friends",
+      "emotion": "Embarrassed",
+      "thoughts": [
+        { "text": "Everyone will remember this forever", "label": "C" },
+        { "text": "I'm embarrassed and it's my fault", "label": "P" },
+        { "text": "I made a mistake, which makes me a clumsy person", "label": "BW" }
+      ],
+      "reframes": [
+        "People usually forget embarrassing moments quickly.",
+        "Everyone makes mistakes, I'm not alone.",
+        "One mistake doesn't make me a clumsy person."
+      ],
+      "coping": [
+        "Remind yourself that everyone makes mistakes",
+        "Take a walk to reset",
+        "Talk to a friend about how you feel"
+      ]
+    },
+    {
+      "id": "left-out",
+      "title": "I'm feeling left out",
+      "category": "School/Friends",
+      "emotion": "Sad",
+      "thoughts": [
+        { "text": "My classmates left me out on purpose", "label": "C" },
+        { "text": "I was left out because I did something wrong", "label": "P" },
+        { "text": "I felt left out today, so my friends must not like me", "label": "BW" }
+      ],
+      "reframes": [
+        "I doubt my classmates meant to make me feel unincluded.",
+        "I wish I had felt more included today, but tomorrow will feel better.",
+        "Being left out doesn't mean my friends don't like me."
+      ],
+      "coping": [
+        "Take deep breaths before calmly talking to friends about how you feel",
+        "Join a different group activity",
+        "Talk to a teacher or counselor"
+      ]
+    },
+    {
+      "id": "presentation",
+      "title": "I have a presentation coming up",
+      "category": "School/Friends",
+      "emotion": "Anxious",
+      "thoughts": [
+        { "text": "I'm gonna mess up the whole thing", "label": "C" },
+        { "text": "If my classmates don't pay attention to me, it's because I have a bad presentation", "label": "P" },
+        { "text": "If I don't make my presentation perfect, it's not worth doing at all", "label": "BW" }
+      ],
+      "reframes": [
+        "I will do my very best job on my presentation and take feedback from my teacher.",
+        "I can practice and prepare to feel more confident.",
+        "It doesn't have to be perfect to be good."
+      ],
+      "coping": [
+        "Practice your presentation with family to prepare",
+        "Practice with a friend",
+        "Focus on doing your best, not perfection"
+      ]
+    },
+    {
+      "id": "someone-unkind",
+      "title": "Someone was unkind to me",
+      "category": "School/Friends",
+      "emotion": "Sad",
+      "thoughts": [
+        { "text": "My classmate was mean to me because I did something wrong", "label": "P" },
+        { "text": "I don't think they like me at all", "label": "C" },
+        { "text": "Since they were mean today, they'll probably be mean everyday", "label": "BW" }
+      ],
+      "reframes": [
+        "Maybe my classmate acted unfair because they were having a tough day.",
+        "One mean moment doesn't define our relationship.",
+        "Their behavior is about them, not me."
+      ],
+      "coping": [
+        "Take deep breaths and stay calm",
+        "Talk to a teacher about what happened",
+        "Practice self-care activities"
+      ]
+    },
+    {
+      "id": "unhappy-grade",
+      "title": "I'm unhappy about a grade I received",
+      "category": "School/Friends",
+      "emotion": "Disappointed",
+      "thoughts": [
+        { "text": "I'll never get better at school", "label": "C" },
+        { "text": "I got a poor grade because I'm not smart", "label": "P" },
+        { "text": "If I'm struggling in a class, I'm not a good student at all", "label": "BW" }
+      ],
+      "reframes": [
+        "My grade isn't perfect, but it's only because I'm still learning.",
+        "I can always improve with practice and help.",
+        "One grade doesn't define how smart I am."
+      ],
+      "coping": [
+        "Remind yourself that mistakes are part of learning",
+        "Talk to your teacher for extra help",
+        "Create a plan to improve next time"
+      ]
+    },
+    {
+      "id": "sibling-fight",
+      "title": "My sibling and I are having a fight",
+      "category": "Family",
+      "emotion": "Angry",
+      "thoughts": [
+        { "text": "We'll never be able to get along", "label": "C" },
+        { "text": "This fight is all my fault", "label": "P" },
+        { "text": "Since we have fights, we must be bad siblings", "label": "BW" }
+      ],
+      "reframes": [
+        "Siblings fight sometimes, but we can make up.",
+        "This fight doesn't mean we don't love each other.",
+        "We can learn to get along better with practice."
+      ],
+      "coping": [
+        "Talk to them calmly and patiently to understand why they are upset",
+        "Take a break and cool down",
+        "Ask a parent for help"
+      ]
+    },
+    {
+      "id": "parent-disagreement",
+      "title": "My parents and I are in a disagreement",
+      "category": "Home/Family",
+      "emotion": "Frustrated",
+      "thoughts": [
+        { "text": "My parents will never see my point of view", "label": "C" },
+        { "text": "This disagreement is all my fault", "label": "P" },
+        { "text": "Since we're in a disagreement, we're not a good family", "label": "BW" }
+      ],
+      "reframes": [
+        "I can calmly explain my point of view.",
+        "Disagreements happen in all families.",
+        "This doesn't mean we don't love each other."
+      ],
+      "coping": [
+        "Take deep breaths before talking",
+        "Use calm words to express your feelings",
+        "Listen to their perspective too"
+      ]
+    },
+    {
+      "id": "family-understand",
+      "title": "My family doesn't understand me",
+      "category": "Home/Family",
+      "emotion": "Frustrated",
+      "thoughts": [
+        { "text": "My family members will never get me", "label": "C" },
+        { "text": "My family doesn't understand me because I'm weird", "label": "P" },
+        { "text": "Since my family doesn't understand some things, they don't get me at all", "label": "BW" }
+      ],
+      "reframes": [
+        "It takes time for families to understand each other.",
+        "We can work on communicating better.",
+        "Being different doesn't mean I'm weird."
+      ],
+      "coping": [
+        "Write down your feelings in a journal",
+        "Have a family meeting to talk",
+        "Find someone you trust to talk to"
       ]
     }
   ],
@@ -51,5 +221,148 @@
     "C": "Catastrophizing",
     "P": "Personalization",
     "BW": "Black-or-White"
-  }
+  },
+  "distortions": [
+    {
+      "id": "C",
+      "name": "Catastrophizing",
+      "description": "Catastrophizing is when someone thinks that the worst possible thing will happen, even if it's not likely at all. For example, if you have a test and you think, \"If I get one question wrong, I will fail the whole grade!\" That's catastrophizing because it's imagining something way, way worse than what will probably happen.",
+      "tip": "💡 Tips and tricks: What word do you see? That's right; Catastrophe. A catastrophe is a horrific event. So Catastrophizing is when you believe the absolute worst will happen.",
+      "examples": [
+        "I'm gonna lose my friend forever",
+        "I'll never get better at school",
+        "I'm gonna mess up the whole thing",
+        "I don't think they like me at all",
+        "We'll never be able to get along",
+        "My parents will never see my point of view",
+        "My family members will never get me"
+      ]
+    },
+    {
+      "id": "P",
+      "name": "Personalization",
+      "description": "Personalization is thinking everything is your fault, even when it isn't your fault at all. Imagine your friend is having a bad day, and you think they are upset because of something you did, even if it's not true. It's like wearing tinted glasses that make you see everything as your responsibility. But in reality, many things happen for different reasons, not just because of you.",
+      "tip": "💡 Tips and tricks: What word do you see? Person? Personal? Something is personal when it has to do with you or your business. So personalization is when you believe everyone's feelings and struggles are because of you.",
+      "examples": [
+        "This fight is all my fault",
+        "My anxiety is my fault",
+        "I'm embarrassed and it's my fault",
+        "I was left out because I did something wrong",
+        "If my classmates don't pay attention to me, it's because I have a bad presentation",
+        "My classmate was mean to me because I did something wrong",
+        "I got a poor grade because I'm not smart",
+        "Since we're in a disagreement, we're not a good family",
+        "My family doesn't understand me because I'm weird"
+      ]
+    },
+    {
+      "id": "BW",
+      "name": "All or Nothing Thinking",
+      "description": "All or Nothing thinking is thinking in extremes. It's like only seeing things as either all good or all bad. For example, imagine you're trying to draw a picture, and you think, \"If my drawing isn't perfect, then it's terrible!\" This kind of thinking can make you feel upset because you're not seeing all the good things about your picture, even if it's not perfect. **If you're a perfectionist, you might struggle with this one!",
+      "tip": "💡 Think about this: When you mix black and white, what do you get? That's right, gray! The same way that a dark and light color can create an in-between color, things aren't either completely horrible or perfect, they can be okay; in between.",
+      "examples": [
+        "If my friend and I are fighting, I must be a terrible friend",
+        "I'm never going to get over this anxiety",
+        "I made a mistake, which makes me a clumsy person",
+        "I felt left out today, so my friends must not like me",
+        "If I don't make my presentation perfect, it's not worth doing at all",
+        "Since they were mean today, they'll probably be mean everyday",
+        "If I'm struggling in a class, I'm not a good student at all",
+        "Since we have fights, we must be bad siblings",
+        "Since my family doesn't understand some things, they don't get me at all"
+      ]
+    }
+  ],
+  "thoughtReframes": [
+    {
+      "unhelpful": "I will forget how to do my dance on stage",
+      "positive": "I might make a mistake, but it will be okay"
+    },
+    {
+      "unhelpful": "If I'm not the best, then I'm a total failure",
+      "positive": "I might not do everything perfectly, but that is because I'm still learning"
+    },
+    {
+      "unhelpful": "I'm going to fail this test and my whole future will be ruined",
+      "positive": "I will try my very best on my test, and I can always ask for help from my parent or teacher"
+    },
+    {
+      "unhelpful": "What if I make a mistake and everyone hates me for it",
+      "positive": "If I make a mistake, I will learn from it and move on"
+    },
+    {
+      "unhelpful": "My friend didn't answer me; it must be because I did something wrong",
+      "positive": "Maybe my friend didn't hear me call their name"
+    },
+    {
+      "unhelpful": "My brother seemed upset today—he must be mad at me",
+      "positive": "My brother might be unhappy, but I doubt I am entirely to blame"
+    },
+    {
+      "unhelpful": "If my friend and I are fighting, I must be a terrible friend",
+      "positive": "Even though we're fighting right now, we will find a way to make up"
+    },
+    {
+      "unhelpful": "If I make a mistake, my classmates will think I'm not smart",
+      "positive": "Everybody makes mistakes, I am still smart even if I make one"
+    },
+    {
+      "unhelpful": "My classmates left me out because they don't like me",
+      "positive": "I doubt my classmates meant to make me feel unincluded"
+    },
+    {
+      "unhelpful": "I felt left out today, so my friends must not like me",
+      "positive": "I wish I had felt more included today, but tomorrow will feel better"
+    },
+    {
+      "unhelpful": "If I don't make my presentation perfect, it's not worth doing at all",
+      "positive": "I will do my very best job on my presentation and take feedback from my teacher"
+    },
+    {
+      "unhelpful": "My classmate was mean to me because I did something wrong",
+      "positive": "Maybe my classmate acted unfair because they were having a tough day"
+    },
+    {
+      "unhelpful": "I got a poor grade because I'm not smart",
+      "positive": "My grade isn't perfect, but it's only because I'm still learning"
+    }
+  ],
+  "actionMatches": [
+    {
+      "feeling": "You're feeling frustrated over a difficult homework assignment",
+      "action": "Take a walk to reset and come back to your homework with a positive mindset"
+    },
+    {
+      "feeling": "You're nervous about a class presentation",
+      "action": "Practice your presentation with family to prepare"
+    },
+    {
+      "feeling": "You feel annoyed after having a fight with a sibling",
+      "action": "Talk to them calmly and patiently to understand why they are upset"
+    },
+    {
+      "feeling": "You feel anxious after having an embarrassing moment",
+      "action": "Remind yourself that everyone makes mistakes"
+    },
+    {
+      "feeling": "You feel anxious because basketball tryouts are coming up",
+      "action": "Practice your skills and go to tryouts with a positive attitude"
+    },
+    {
+      "feeling": "You feel disappointed after receiving a test grade",
+      "action": "Remind yourself that mistakes are part of learning, and talk to your teacher for extra help"
+    },
+    {
+      "feeling": "You feel upset after being left out by your friends",
+      "action": "Take deep breaths before calmly talking to your friends about how you feel"
+    },
+    {
+      "feeling": "You feel exhausted because you are doing all the work in a group project",
+      "action": "Kindly ask your classmates if they would like to help with a certain part of the project"
+    },
+    {
+      "feeling": "You feel overwhelmed because you don't have time to complete all your tasks",
+      "action": "Create a plan for all of the things you need to get done"
+    }
+  ]
 }

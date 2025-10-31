@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 const ACTIVITIES = [
-  'Take 5 deep breaths',
-  'Name 5 things you see',
-  'Stretch your arms',
-  'Drink some water',
-  'Draw something you like',
-  'Tell yourself one kind thing',
+  '5-4-3-2-1 Grounding',
+  'Take a walk',
+  'Listen to music',
+  'Take deep breaths',
+  'Do 5-4-3-2-1 Grounding',
+  'Practice mindfulness'
 ];
 
 export default function DiceRandomizer() {

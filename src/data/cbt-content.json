@@ -1,46 +1,74 @@
 {
   "categories": [
-    { 
-      "id": "anxious", 
-      "label": "I feel anxious", 
-      "example": "I'm scared about school tomorrow",
+    {
+      "id": "friend-fight",
+      "label": "My friend and I are having a fight",
+      "example": "We're arguing and it's making me sad",
+      "emoji": "😢",
+      "color": "bg-red-100 border-red-300"
+    },
+    {
+      "id": "anxious-school",
+      "label": "I feel anxious at school",
+      "example": "I worry about making mistakes in class",
       "emoji": "😰",
       "color": "bg-blue-100 border-blue-300"
     },
-    { 
-      "id": "mistake", 
-      "label": "I made a mistake", 
-      "example": "I broke my sibling's toy",
-      "emoji": "😅",
+    {
+      "id": "embarrassing-moment",
+      "label": "I had an embarrassing moment",
+      "example": "I did something embarrassing in front of everyone",
+      "emoji": "😳",
+      "color": "bg-pink-100 border-pink-300"
+    },
+    {
+      "id": "left-out",
+      "label": "I'm feeling left out",
+      "example": "My classmates didn't include me today",
+      "emoji": "😞",
+      "color": "bg-indigo-100 border-indigo-300"
+    },
+    {
+      "id": "presentation",
+      "label": "I have a presentation coming up",
+      "example": "I'm nervous about presenting in class",
+      "emoji": "😬",
+      "color": "bg-yellow-100 border-yellow-300"
+    },
+    {
+      "id": "someone-unkind",
+      "label": "Someone was unkind to me",
+      "example": "A classmate was mean to me today",
+      "emoji": "😔",
+      "color": "bg-gray-100 border-gray-300"
+    },
+    {
+      "id": "unhappy-grade",
+      "label": "I'm unhappy about a grade I received",
+      "example": "I got a grade I didn't like",
+      "emoji": "😞",
       "color": "bg-orange-100 border-orange-300"
     },
-    { 
-      "id": "friend", 
-      "label": "I had a fight with a friend", 
-      "example": "We argued at recess",
+    {
+      "id": "sibling-fight",
+      "label": "My sibling and I are having a fight",
+      "example": "We're arguing and can't get along",
       "emoji": "😠",
       "color": "bg-red-100 border-red-300"
     },
-    { 
-      "id": "overwhelmed", 
-      "label": "I feel overwhelmed", 
-      "example": "Too much homework",
-      "emoji": "😵",
+    {
+      "id": "parent-disagreement",
+      "label": "My parents and I are in a disagreement",
+      "example": "We don't see eye to eye on something",
+      "emoji": "😤",
       "color": "bg-purple-100 border-purple-300"
     },
-    { 
-      "id": "sad", 
-      "label": "I feel sad", 
-      "example": "My pet is sick",
+    {
+      "id": "family-understand",
+      "label": "My family doesn't understand me",
+      "example": "I feel like they don't get me",
       "emoji": "😢",
-      "color": "bg-gray-100 border-gray-300"
-    },
-    { 
-      "id": "angry", 
-      "label": "I feel angry", 
-      "example": "Someone took my turn",
-      "emoji": "😡",
-      "color": "bg-red-100 border-red-300"
+      "color": "bg-indigo-100 border-indigo-300"
     }
   ],
   "distortions": [

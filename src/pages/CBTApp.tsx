@@ -189,12 +189,17 @@ function MoodAssessment() {
     
     // Redirect based on mood
     setTimeout(() => {
-      if (mood.type === 'happy') {
-        // Happy users go to calm corner or games
-        navigate('/cbt/calm');
+      if (mood.type === 'happy' || mood.type === 'neutral') {
+        // Happy and Neutral users go to calm corner or games
+        const goToGames = Math.random() > 0.5;
+        navigate(goToGames ? '/cbt/games' : '/cbt/calm');
       } else {
-        // Sad/neutral/worried/angry users go to self-help scenarios
-        // Stay on current page to show scenarios
+        // Sad/worried/angry users go to CBT scenarios
+        // Scroll to scenarios section
+        setTimeout(() => {
+          const scenariosSection = document.getElementById('scenarios-section');
+          scenariosSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
       }
     }, 500);
   };
@@ -335,9 +340,6 @@ function CategoryCard({ category, onPick }) {
           <div>
             <div className="text-2xl font-bold text-gray-800 font-heading">
               {category.label}
-            </div>
-            <div className="mt-2 text-base font-medium text-gray-500">
-              8.00am - 10.00am
             </div>
           </div>
           <div className="w-20 h-20 rounded-full bg-purple-700 text-white flex items-center justify-center">
@@ -655,6 +657,7 @@ export default function CBTApp() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [voiceError, setVoiceError] = useState<string | null>(null);
+  const [scenariosToShow, setScenariosToShow] = useState(6);
   const [settings] = useState<AppSettings>(() => {
     try {
       return getSettings();
@@ -804,18 +807,15 @@ export default function CBTApp() {
                   <Link to="/cbt/actions" className="px-3 py-2 rounded bg-white/60 hover:bg-white/80 text-sm">Actions</Link>
                 </div>
               
-              <div className="mt-10" data-onboard="lessons">
+              <div className="mt-10" data-onboard="lessons" id="scenarios-section">
                 <h2 className="text-xl font-bold text-gray-800 mb-4 font-heading">
-                  What would you like to explore today?
+                  What's bothering you today?
                 </h2>
 
                 {/* Scenarios Section */}
                 <div>
-                  <h3 className="text-lg font-semibold text-gray-700 mb-3 font-subheading">
-                    📚 CBT Scenarios
-                  </h3>
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    {cbtContent.categories.slice(0, 6).map((category, index) => (
+                    {cbtContent.categories.slice(0, scenariosToShow).map((category, index) => (
                       <CategoryCard
                         key={category.id}
                         category={category}
@@ -823,15 +823,14 @@ export default function CBTApp() {
                       />
                     ))}
                   </div>
-                  {cbtContent.categories.length > 6 && (
+                  {scenariosToShow < cbtContent.categories.length && (
                     <div className="mt-4 text-center">
                       <Button 
                         variant="outline" 
                         className="bg-white/60 hover:bg-white/80"
                         onClick={() => {
-                          // Show all categories or navigate to a categories page
-                          const remainingCategories = cbtContent.categories.slice(6);
-                          console.log('Show more categories:', remainingCategories);
+                          // Show all remaining scenarios
+                          setScenariosToShow(cbtContent.categories.length);
                         }}
                       >
                         View More Scenarios

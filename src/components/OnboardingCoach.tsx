@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { useSpeechAssistance } from '@/hooks/useSpeechAssistance';
+import { getSettings } from '@/lib/storage';
 import { ChevronRight } from 'lucide-react';
 
 interface OnboardingCoachProps {
@@ -16,6 +17,7 @@ export default function OnboardingCoach({ enabled = false, onClose, showEveryTim
   const [step, setStep] = useState(0);
   const { speak, stop, getChildFriendlyVoice } = useSpeechAssistance();
   const [didPostIntro, setDidPostIntro] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(false);
 
   useEffect(() => {
     if (!enabled) return;
@@ -27,8 +29,24 @@ export default function OnboardingCoach({ enabled = false, onClose, showEveryTim
     }
   }, [enabled, showEveryTime]);
 
+  // Check audio settings
   useEffect(() => {
-    if (!show) return;
+    const settings = getSettings();
+    setSoundEnabled(settings.soundEnabled);
+
+    const handleSettingsChange = () => {
+      const settings = getSettings();
+      setSoundEnabled(settings.soundEnabled);
+    };
+
+    window.addEventListener('settingsChanged', handleSettingsChange);
+    return () => {
+      window.removeEventListener('settingsChanged', handleSettingsChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!show || !soundEnabled) return; // Only speak if audio is enabled
     const voice = getChildFriendlyVoice();
     stop();
     const opts = { voice, rate: 0.95, pitch: 1.25, volume: 0.9 } as const;
@@ -41,7 +59,7 @@ export default function OnboardingCoach({ enabled = false, onClose, showEveryTim
     } else if (step === 3) {
       speak("Or tell me how you feel using this chat bar.", opts);
     }
-  }, [show, step, speak, stop, getChildFriendlyVoice]);
+  }, [show, step, speak, stop, getChildFriendlyVoice, soundEnabled]);
 
   const handleNext = () => {
     if (step < 3) {
@@ -50,8 +68,8 @@ export default function OnboardingCoach({ enabled = false, onClose, showEveryTim
       if (!showEveryTime) localStorage.setItem('onboarding_seen', '1');
       setShow(false);
       stop();
-      // Post-onboarding short site intro
-      if (!didPostIntro) {
+      // Post-onboarding short site intro (only if audio is enabled)
+      if (!didPostIntro && soundEnabled) {
         const voice = getChildFriendlyVoice();
         setTimeout(() => {
           speak("This is a safe space to learn feelings and thoughts with fun games and a friendly helper.", { voice, rate: 0.95, pitch: 1.25, volume: 0.9 });
