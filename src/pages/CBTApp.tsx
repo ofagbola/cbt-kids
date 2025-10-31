@@ -188,20 +188,20 @@ function MoodAssessment() {
     setSelectedMood(mood.type);
     
     // Redirect based on mood
-    setTimeout(() => {
-      if (mood.type === 'happy' || mood.type === 'neutral') {
-        // Happy and Neutral users go to calm corner or games
-        const goToGames = Math.random() > 0.5;
-        navigate(goToGames ? '/cbt/games' : '/cbt/calm');
-      } else {
-        // Sad/worried/angry users go to CBT scenarios
-        // Scroll to scenarios section
-        setTimeout(() => {
-          const scenariosSection = document.getElementById('scenarios-section');
-          scenariosSection?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-      }
-    }, 500);
+    if (mood.type === 'happy' || mood.type === 'neutral') {
+      // Happy and Neutral users go to calm corner or games
+      const goToGames = Math.random() > 0.5;
+      navigate(goToGames ? '/cbt/games' : '/cbt/calm');
+    } else {
+      // Sad/worried/angry users go to CBT scenarios
+      // Scroll to scenarios section for better UX
+      setTimeout(() => {
+        const scenariosSection = document.getElementById('scenarios-section');
+        if (scenariosSection) {
+          scenariosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 50);
+    }
   };
 
   return (
