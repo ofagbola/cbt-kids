@@ -18,6 +18,7 @@ import CBTTEAThoughts from "./pages/CBTTEAThoughts";
 import CBTTEAEmotions from "./pages/CBTTEAEmotions";
 import CBTTEAActions from "./pages/CBTTEAActions";
 import CBTGames from "./pages/CBTGames";
+import CBTScenarioDetail from "./pages/CBTScenarioDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -39,6 +40,7 @@ const App = () => (
             <Route path="/cbt/emotions" element={<CBTTEAEmotions />} />
             <Route path="/cbt/actions" element={<CBTTEAActions />} />
             <Route path="/cbt/games" element={<CBTGames />} />
+            <Route path="/cbt/scenario/:scenarioId" element={<CBTScenarioDetail />} />
             <Route path="/thoughts" element={<Thoughts />} />
             <Route path="/game" element={<Game />} />
             <Route path="/games" element={<Games />} />

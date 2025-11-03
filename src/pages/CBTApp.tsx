@@ -12,12 +12,7 @@ import {
   Gamepad2, 
   BookOpen, 
   Settings, 
-  Mic, 
-  MicOff,
   Send,
-  Play,
-  Pause,
-  Volume2,
   Brain,
   Heart,
   Zap
@@ -25,7 +20,6 @@ import {
 import cbtContent from '@/data/cbt-content.json';
 import VisualCBT from '@/components/cbt/VisualCBT';
 import FloatingImages from '@/components/FloatingImages';
-import SpeechText from '@/components/SpeechText';
 import CustomCursor from '@/components/CustomCursor';
 import { useHoverBounce } from '@/lib/gsap';
 import OnboardingCoach from '@/components/OnboardingCoach';
@@ -78,16 +72,6 @@ function SettingsModal() {
           <DialogTitle>Settings</DialogTitle>
         </DialogHeader>
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <label className="text-sm font-medium">Audio</label>
-              <p className="text-xs text-muted-foreground">Enable sound effects and voice</p>
-            </div>
-            <Switch
-              checked={settings.soundEnabled}
-              onCheckedChange={(checked) => handleSettingChange('soundEnabled', checked)}
-            />
-          </div>
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <label className="text-sm font-medium">Animations</label>
@@ -221,9 +205,7 @@ function MoodAssessment() {
     >
       <h2 className="font-heading text-4xl md:text-5xl font-extrabold text-purple-700 tracking-tight flex items-center gap-3">
         <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-purple-600 text-white">🧠</span>
-        <span className="drop-shadow-sm">
-          <SpeechText>How are you feeling today?</SpeechText>
-        </span>
+        <span className="drop-shadow-sm">How are you feeling today?</span>
       </h2>
       
       <div className="mt-6">
@@ -317,13 +299,20 @@ function ProgressTracker() {
 }
 
 // Category Card Component
-function CategoryCard({ category, onPick }) {
+function CategoryCard({ category }) {
+  const navigate = useNavigate();
   const cardRef = useHoverBounce<HTMLButtonElement>();
+  
+  const handleClick = () => {
+    // Navigate to scenario detail page
+    navigate(`/cbt/scenario/${category.id}`);
+  };
+  
   return (
     <div className="p-1 rounded-3xl border-4 border-dashed border-purple-700/80">
       <motion.button
-        onClick={() => onPick(category)}
-        className="w-full rounded-3xl"
+        onClick={handleClick}
+        className="w-full rounded-3xl cursor-pointer"
         ref={cardRef}
         style={{
           background: "#ffffff",
@@ -416,12 +405,9 @@ function CBTTriangle() {
 }
 
 // Chat Bar Component
-function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceError, settings }) {
+function ChatBar({ onSendMessage }) {
   const [message, setMessage] = useState("");
-  const [isRecording, setIsRecording] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [isListening, setIsListening] = useState(false);
-  const recognitionRef = useRef(null);
 
   const quickSuggestions = [
     { text: "I'm worried about school tomorrow", emoji: "😰" },
@@ -431,42 +417,6 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
     { text: "I'm sad about something", emoji: "😢" },
     { text: "I'm angry at my sibling", emoji: "😤" },
   ];
-
-  // Initialize speech recognition
-  useEffect(() => {
-    if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).webkitSpeechRecognition || (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).SpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-US';
-
-      recognitionRef.current.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        setMessage(transcript);
-        setIsListening(false);
-        setIsRecording(false);
-      };
-
-      recognitionRef.current.onerror = (event) => {
-        console.error('Speech recognition error:', event.error);
-        setIsListening(false);
-        setIsRecording(false);
-        if (event.error === 'not-allowed') {
-          setVoiceError('Microphone access denied. Please allow microphone access for voice features.');
-        } else if (event.error === 'network') {
-          setVoiceError('Network error. Voice features require a secure connection (HTTPS).');
-        }
-      };
-
-      recognitionRef.current.onend = () => {
-        setIsListening(false);
-        setIsRecording(false);
-      };
-    } else {
-      setVoiceError('Voice recognition not supported in this browser.');
-    }
-  }, [setVoiceError]);
 
   const handleSend = () => {
     if (message.trim()) {
@@ -485,22 +435,6 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
   const handleSuggestionClick = (suggestion) => {
     setMessage(suggestion.text);
     setShowSuggestions(false);
-  };
-
-  const startVoiceRecording = () => {
-    if (recognitionRef.current && !isListening) {
-      setIsListening(true);
-      setIsRecording(true);
-      recognitionRef.current.start();
-    }
-  };
-
-  const stopVoiceRecording = () => {
-    if (recognitionRef.current && isListening) {
-      recognitionRef.current.stop();
-      setIsListening(false);
-      setIsRecording(false);
-    }
   };
 
   return (
@@ -557,54 +491,12 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
           border: "1px solid rgba(255, 255, 255, 0.3)",
         }}
       >
-        {voiceError && (
-          <div className="absolute -top-12 left-0 right-0 bg-yellow-100 border border-yellow-300 rounded-lg p-2 text-xs text-yellow-800">
-            {voiceError}
-          </div>
-        )}
-        {settings.soundEnabled && (
-          <motion.button
-            className={`rounded-full w-12 h-12 flex items-center justify-center ${
-              isPlaying ? "bg-red-400" : "bg-green-400"
-            } text-black shadow-md`}
-            onClick={onTogglePlay}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            {isPlaying ? (
-              <Pause className="w-5 h-5" />
-            ) : (
-              <Play className="w-5 h-5" />
-            )}
-          </motion.button>
-        )}
-
-        {/* Wave Animation */}
-        {settings.soundEnabled && (
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <motion.div
-                key={i}
-                className="w-1 bg-blue-400 rounded-full"
-                animate={{
-                  height: isPlaying ? [4, 16, 4] : 4,
-                }}
-                transition={{
-                  duration: 0.6,
-                  repeat: isPlaying ? Infinity : 0,
-                  delay: i * 0.1,
-                }}
-              />
-            ))}
-          </div>
-        )}
-
         <div className="flex-1 relative">
           <Input
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyPress={handleKeyPress}
-            placeholder="Write or say how you feel..."
+            placeholder="Write how you feel..."
             className="border-0 focus:ring-0 text-gray-800 pr-12"
             style={{
               background: "rgba(255, 255, 255, 0.2)",
@@ -623,17 +515,6 @@ function ChatBar({ onSendMessage, isPlaying, onTogglePlay, voiceError, setVoiceE
             💡
           </motion.button>
         </div>
-
-        <motion.button
-          className={`rounded-full w-10 h-10 flex items-center justify-center ${
-            isListening ? "bg-red-500 animate-pulse" : "bg-gray-200"
-          } text-black`}
-          onClick={isListening ? stopVoiceRecording : startVoiceRecording}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-        </motion.button>
 
         <Button
           onClick={handleSend}
@@ -654,9 +535,7 @@ export default function CBTApp() {
   const [thought, setThought] = useState("");
   const [feeling, setFeeling] = useState(null);
   const [result, setResult] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const [showChat, setShowChat] = useState(false);
-  const [voiceError, setVoiceError] = useState<string | null>(null);
   const [scenariosToShow, setScenariosToShow] = useState(6);
   const [settings] = useState<AppSettings>(() => {
     try {
@@ -768,10 +647,6 @@ export default function CBTApp() {
     }
   };
 
-  const handleTogglePlay = () => {
-    setIsPlaying(!isPlaying);
-  };
-
   const resetLesson = () => {
     setStep(0);
     setSelectedCategory(null);
@@ -819,7 +694,6 @@ export default function CBTApp() {
                       <CategoryCard
                         key={category.id}
                         category={category}
-                        onPick={handleCategoryPick}
                       />
                     ))}
                   </div>
@@ -886,11 +760,6 @@ export default function CBTApp() {
       <div data-onboard="chatbar">
       <ChatBar
         onSendMessage={handleSendMessage}
-        isPlaying={isPlaying}
-        onTogglePlay={handleTogglePlay}
-        voiceError={voiceError}
-        setVoiceError={setVoiceError}
-        settings={settings}
       />
       </div>
 
