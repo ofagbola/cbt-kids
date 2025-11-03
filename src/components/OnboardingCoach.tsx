@@ -30,14 +30,14 @@ export default function OnboardingCoach({ enabled = false, onClose, showEveryTim
     } else {
       if (!showEveryTime) localStorage.setItem('onboarding_seen', '1');
       setShow(false);
-      onClose && onClose();
+      onClose?.();
     }
   };
 
   const handleSkip = () => {
     if (!showEveryTime) localStorage.setItem('onboarding_seen', '1');
     setShow(false);
-    onClose && onClose();
+    onClose?.();
   };
 
   if (!show) return null;

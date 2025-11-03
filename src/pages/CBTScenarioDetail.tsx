@@ -132,7 +132,7 @@ export default function CBTScenarioDetail() {
           </div>
         );
 
-      case 5:
+      case 5: {
         // Catastrophizing (C)
         const cDistortion = teaContent.distortions.find(d => d.id === 'C');
         return (
@@ -155,8 +155,9 @@ export default function CBTScenarioDetail() {
             </motion.div>
           </div>
         );
+      }
 
-      case 6:
+      case 6: {
         // Personalization (P)
         const pDistortion = teaContent.distortions.find(d => d.id === 'P');
         return (
@@ -179,8 +180,9 @@ export default function CBTScenarioDetail() {
             </motion.div>
           </div>
         );
+      }
 
-      case 7:
+      case 7: {
         // All or Nothing Thinking (BW)
         const bwDistortion = teaContent.distortions.find(d => d.id === 'BW');
         return (
@@ -203,6 +205,7 @@ export default function CBTScenarioDetail() {
             </motion.div>
           </div>
         );
+      }
 
       case 8:
         // Ready for game
