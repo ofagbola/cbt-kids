@@ -178,11 +178,19 @@ function MoodAssessment() {
       navigate(goToGames ? '/cbt/games' : '/cbt/calm');
     } else {
       // Sad/worried/angry users go to CBT scenarios
-      // Scroll to scenarios section for better UX
+      // Scroll to scenarios section with visual feedback
       setTimeout(() => {
         const scenariosSection = document.getElementById('scenarios-section');
         if (scenariosSection) {
+          // Add temporary highlight
+          scenariosSection.style.transition = 'all 0.3s ease';
+          scenariosSection.style.boxShadow = '0 0 0 4px rgba(147, 51, 234, 0.3)';
           scenariosSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Remove highlight after animation
+          setTimeout(() => {
+            scenariosSection.style.boxShadow = '';
+          }, 1000);
         }
       }, 50);
     }
