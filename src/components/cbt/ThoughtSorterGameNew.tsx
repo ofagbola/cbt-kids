@@ -75,7 +75,7 @@ export default function ThoughtSorterGameNew() {
 
   const calculateScore = () => {
     let correct = 0;
-    let total = thoughts.length;
+    const total = thoughts.length;
 
     thoughts.forEach(thought => {
       if (placedThoughts[thought.id] === thought.correctType) {

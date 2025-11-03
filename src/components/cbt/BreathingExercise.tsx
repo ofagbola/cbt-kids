@@ -5,7 +5,7 @@ export default function BreathingExercise() {
 
   useEffect(() => {
     let id: number;
-    let expand = true;
+    const expand = true;
     const el = circleRef.current;
     if (!el) return;
     let t = 0;

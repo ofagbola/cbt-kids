@@ -18,9 +18,24 @@ interface Message {
   emojiOptions?: { emoji: string; label: string; value: string }[];
 }
 
+interface Category {
+  id: string;
+  label: string;
+  example?: string;
+}
+
 interface VisualCBTProps {
-  selectedCategory: any;
+  selectedCategory: Category;
   onClose: () => void;
+}
+
+interface SpeechRecognitionInstance {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: { results: { 0: { 0: { transcript: string } } } }) => void) | null;
+  onerror: (() => void) | null;
+  onend: (() => void) | null;
 }
 
 export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps) {
@@ -34,31 +49,33 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const synthRef = useRef<SpeechSynthesisUtterance | null>(null);
 
   // Initialize speech recognition
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
-      recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-US';
+      const SpeechRecognition = (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).webkitSpeechRecognition || (window as { webkitSpeechRecognition?: unknown; SpeechRecognition?: unknown }).SpeechRecognition;
+      recognitionRef.current = new SpeechRecognition() as SpeechRecognitionInstance;
+      if (recognitionRef.current) {
+        recognitionRef.current.continuous = false;
+        recognitionRef.current.interimResults = false;
+        recognitionRef.current.lang = 'en-US';
 
-      recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setInputText(transcript);
-        setIsListening(false);
-      };
+        recognitionRef.current.onresult = (event: { results: { 0: { 0: { transcript: string } } } }) => {
+          const transcript = event.results[0][0].transcript;
+          setInputText(transcript);
+          setIsListening(false);
+        };
 
-      recognitionRef.current.onerror = () => {
-        setIsListening(false);
-      };
+        recognitionRef.current.onerror = () => {
+          setIsListening(false);
+        };
 
-      recognitionRef.current.onend = () => {
-        setIsListening(false);
-      };
+        recognitionRef.current.onend = () => {
+          setIsListening(false);
+        };
+      }
     }
   }, []);
 
@@ -83,7 +100,7 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const getContextualGreeting = (category: any) => {
+  const getContextualGreeting = (category: Category) => {
     // Check if we have a detailed scenario in teaContent
     const detailedScenario = teaContent.scenarios.find(s => s.id === category.id);
     
@@ -230,7 +247,7 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
           emojiOptions: getEmojiOptions('thoughts')
         };
 
-      case 'feelings':
+      case 'feelings': {
         const matchingFeeling = cbtContent.feelings.find(f => 
           lowerMessage.includes(f.name.toLowerCase()) || 
           lowerMessage.includes(f.emoji) ||
@@ -254,8 +271,9 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
           text: "What are you feeling? Choose an emotion:",
           emojiOptions: getEmojiOptions('feelings')
         };
+      }
 
-      case 'behaviors':
+      case 'behaviors': {
         setUserBehavior(userMessage);
         setCurrentStep('complete');
         
@@ -280,6 +298,7 @@ export default function VisualCBT({ selectedCategory, onClose }: VisualCBTProps)
             { emoji: '🏆', label: 'Practice', value: 'I want to practice more' }
           ]
         };
+      }
 
       case 'complete':
         if (lowerMessage.includes('differently') || lowerMessage.includes('better') || lowerMessage.includes('strategies')) {

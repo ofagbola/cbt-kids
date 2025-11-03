@@ -13,8 +13,14 @@ interface Message {
   type?: 'question' | 'response' | 'suggestion';
 }
 
+interface Category {
+  id: string;
+  label: string;
+  example?: string;
+}
+
 interface CBTChatProps {
-  selectedCategory: any;
+  selectedCategory: Category;
   onClose: () => void;
 }
 
@@ -33,7 +39,7 @@ export default function CBTChat({ selectedCategory, onClose }: CBTChatProps) {
     }]);
   }, [selectedCategory]);
 
-  const getContextualGreeting = (category: any) => {
+  const getContextualGreeting = (category: Category) => {
     const greetings = {
       'anxious': `Hi! I'm here to help you work through feeling anxious. I can see you're dealing with "${category.example}". Let's explore what's going through your mind and find some helpful ways to feel calmer. What thoughts are you having about this situation?`,
       'mistake': `Hello! I'm here to help you work through making a mistake. Everyone makes mistakes - it's part of learning! Let's talk about "${category.example}" and explore your thoughts, feelings, and how you can move forward. What's going through your mind right now?`,
@@ -122,7 +128,7 @@ export default function CBTChat({ selectedCategory, onClose }: CBTChatProps) {
           suggestions: ['I think I made a mistake', 'I think everyone is better than me', 'I think something bad will happen']
         };
 
-      case 'feelings':
+      case 'feelings': {
         const matchingFeeling = cbtContent.feelings.find(f => 
           lowerMessage.includes(f.name.toLowerCase()) || 
           lowerMessage.includes(f.emoji) ||
@@ -146,8 +152,9 @@ export default function CBTChat({ selectedCategory, onClose }: CBTChatProps) {
           text: "I understand you're having some strong feelings. Can you tell me more about what you're experiencing? What emotions are you feeling right now?",
           suggestions: cbtContent.feelings.map(f => f.name)
         };
+      }
 
-      case 'behaviors':
+      case 'behaviors': {
         setUserBehavior(userMessage);
         setCurrentStep('complete');
         
@@ -168,6 +175,7 @@ export default function CBTChat({ selectedCategory, onClose }: CBTChatProps) {
           text: responseText,
           suggestions: ['What could I try differently?', 'How can I handle this better?', 'What strategies might help?', 'Can you help me practice?']
         };
+      }
 
       case 'complete':
         if (lowerMessage.includes('differently') || lowerMessage.includes('better') || lowerMessage.includes('strategies')) {

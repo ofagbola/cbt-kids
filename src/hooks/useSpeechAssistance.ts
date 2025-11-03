@@ -32,8 +32,9 @@ export function useSpeechAssistance() {
     ensureVoices();
     window.speechSynthesis.onvoiceschanged = ensureVoices;
     return () => {
-      window.speechSynthesis.onvoiceschanged = null as any;
+      window.speechSynthesis.onvoiceschanged = null as unknown as () => void;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const speak = (text: string, options: SpeechOptions = {}) => {
