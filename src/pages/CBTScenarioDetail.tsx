@@ -25,7 +25,7 @@ export default function CBTScenarioDetail() {
     );
   }
 
-  const totalSlides = 7;
+  const totalSlides = 6;
   
   const thoughtLabels: Record<string, string> = {
     'C': 'Catastrophizing',
@@ -95,12 +95,7 @@ export default function CBTScenarioDetail() {
         );
       
       case 4:
-      case 5:
-        // Thoughts are not facts educational content
-        const distortion = currentSlide === 4 
-          ? teaContent.distortions.find(d => d.id === 'C')
-          : teaContent.distortions.find(d => d.id === 'P');
-        
+        // Thoughts are not facts introduction
         return (
           <div className="space-y-6">
             <motion.div
@@ -123,52 +118,9 @@ export default function CBTScenarioDetail() {
               </p>
             </motion.div>
 
-            {currentSlide === 5 && distortion && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="p-6 bg-blue-50 border-2 border-blue-300 rounded-2xl"
-              >
-                <h2 className="text-2xl font-bold text-blue-800 mb-3">{distortion.name}</h2>
-                <p className="text-base text-gray-700 mb-3">{distortion.description}</p>
-                <div className="p-3 bg-white rounded-lg">
-                  <p className="text-lg font-semibold text-blue-700 mb-2">{distortion.tip}</p>
-                </div>
-                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                  <p className="text-sm font-medium text-yellow-800">
-                    Example: {distortion.examples[0]}
-                  </p>
-                </div>
-              </motion.div>
-            )}
-          </div>
-        );
-
-      case 6:
-        // All or Nothing Thinking
-        const bwDistortion = teaContent.distortions.find(d => d.id === 'BW');
-        return (
-          <div className="space-y-6">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-6 bg-purple-50 border-2 border-purple-300 rounded-2xl"
-            >
-              <h2 className="text-2xl font-bold text-purple-800 mb-3">{bwDistortion?.name}</h2>
-              <p className="text-base text-gray-700 mb-3">{bwDistortion?.description}</p>
-              <div className="p-3 bg-white rounded-lg">
-                <p className="text-lg font-semibold text-purple-700 mb-2">{bwDistortion?.tip}</p>
-              </div>
-              <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
-                <p className="text-sm font-medium text-yellow-800">
-                  Example: {bwDistortion?.examples[0]}
-                </p>
-              </div>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               className="p-6 bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-300 rounded-2xl"
             >
               <h3 className="text-xl font-bold text-blue-800 mb-3">As you may know...</h3>
@@ -176,6 +128,36 @@ export default function CBTScenarioDetail() {
                 Our brains sometimes get stuck in certain ways of thinking, which can affect how we feel. 
                 Interestingly enough, thoughts have patterns and many have special names.
               </p>
+            </motion.div>
+          </div>
+        );
+
+      case 5:
+      case 6:
+        // Catastrophizing (slide 5) or All or Nothing (slide 6)
+        const distortion = currentSlide === 5
+          ? teaContent.distortions.find(d => d.id === 'C')
+          : teaContent.distortions.find(d => d.id === 'BW');
+        
+        if (!distortion) return null;
+        
+        return (
+          <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className={`p-6 ${currentSlide === 5 ? 'bg-blue-50 border-blue-300' : 'bg-purple-50 border-purple-300'} border-2 rounded-2xl`}
+            >
+              <h2 className="text-2xl font-bold text-purple-800 mb-3">{distortion.name}</h2>
+              <p className="text-base text-gray-700 mb-3">{distortion.description}</p>
+              <div className="p-3 bg-white rounded-lg">
+                <p className="text-lg font-semibold text-purple-700 mb-2">{distortion.tip}</p>
+              </div>
+              <div className="mt-3 p-3 bg-yellow-50 border border-yellow-300 rounded-lg">
+                <p className="text-sm font-medium text-yellow-800">
+                  Example: {distortion.examples[0]}
+                </p>
+              </div>
             </motion.div>
           </div>
         );
