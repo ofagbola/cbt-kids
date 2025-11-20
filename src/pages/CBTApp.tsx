@@ -544,7 +544,6 @@ export default function CBTApp() {
   const [feeling, setFeeling] = useState(null);
   const [result, setResult] = useState(null);
   const [showChat, setShowChat] = useState(false);
-  const [scenariosToShow, setScenariosToShow] = useState(6);
   const [settings] = useState<AppSettings>(() => {
     try {
       return getSettings();
@@ -691,34 +690,47 @@ export default function CBTApp() {
                 </div>
               
               <div className="mt-10" data-onboard="lessons" id="scenarios-section">
-                <h2 className="text-xl font-bold text-gray-800 mb-4 font-heading">
+                <h2 className="text-xl font-bold text-gray-800 mb-6 font-heading">
                   What's bothering you today?
                 </h2>
 
-                {/* Scenarios Section */}
-                <div>
-                  <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    {cbtContent.categories.slice(0, scenariosToShow).map((category, index) => (
-                      <CategoryCard
-                        key={category.id}
-                        category={category}
-                      />
-                    ))}
-                  </div>
-                  {scenariosToShow < cbtContent.categories.length && (
-                    <div className="mt-4 text-center">
-                      <Button 
-                        variant="outline" 
-                        className="bg-white/60 hover:bg-white/80"
-                        onClick={() => {
-                          // Show all remaining scenarios
-                          setScenariosToShow(cbtContent.categories.length);
-                        }}
-                      >
-                        View More Scenarios
-                      </Button>
+                {/* Scenarios Section - Grouped by Category */}
+                <div className="space-y-8">
+                  {/* School/Friends Category */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4 font-subheading flex items-center gap-2">
+                      <span className="text-2xl">🏫</span>
+                      School/Friends
+                    </h3>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                      {cbtContent.categories
+                        .filter(cat => cat.category === 'School/Friends')
+                        .map((category) => (
+                          <CategoryCard
+                            key={category.id}
+                            category={category}
+                          />
+                        ))}
                     </div>
-                  )}
+                  </div>
+
+                  {/* Home/Family Category */}
+                  <div>
+                    <h3 className="text-lg font-semibold text-gray-700 mb-4 font-subheading flex items-center gap-2">
+                      <span className="text-2xl">🏠</span>
+                      Home/Family
+                    </h3>
+                    <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                      {cbtContent.categories
+                        .filter(cat => cat.category === 'Home/Family')
+                        .map((category) => (
+                          <CategoryCard
+                            key={category.id}
+                            category={category}
+                          />
+                        ))}
+                    </div>
+                  </div>
                 </div>
               </div>
 
